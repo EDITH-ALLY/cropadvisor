@@ -1,0 +1,20 @@
+{
+  "overview": "A smart crop recommendation and agricultural economics tool. Farmers input soil structure, water availability, climate zone, and land type to receive ranked crop suggestions with detailed growing information, cost breakdowns, and profit estimates.",
+  "features": [
+    "Multi-parameter input form (soil, water, climate, land type)",
+    "Ranked crop recommendations with match scores",
+    "Detailed crop information and growing requirements",
+    "Economics calculator with cost and profit estimates",
+    "Yield scenario toggles (optimistic/realistic/conservative)",
+    "Saved analysis history with comparison"
+  ],
+  "category": "productivity",
+  "tags": [
+    "agriculture",
+    "crop-recommendation",
+    "farming",
+    "economics",
+    "sustainability"
+  ],
+  "last_updated": "2026-04-16T05:12:07.750Z"
+}

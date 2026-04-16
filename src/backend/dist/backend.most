@@ -1,0 +1,58 @@
+// Version: 1.0.0
+type AnalysisId__627167302 = Nat;
+type ClimateZone__656369338 =
+  {#arid; #continental; #mediterranean; #semiarid; #temperate; #tropical};
+type CropInfo__658887022 =
+  {
+    conditions : GrowingConditions__563925953;
+    description : Text;
+    growingSeasonDays : Nat;
+    id : Text;
+    marketPricePerKg : Float;
+    name : Text;
+    typicalYieldKgPerHectare : Nat;
+    waterRequirementMm : Nat
+  };
+type GrowingConditions__563925953 =
+  {
+    maxRainfallMm : Nat;
+    maxTempCelsius : Int;
+    minRainfallMm : Nat;
+    minTempCelsius : Int;
+    soilPhMax : Float;
+    soilPhMin : Float;
+    suitableClimates : [ClimateZone__656369338];
+    suitableLandTypes : [LandType__302881069];
+    suitableSoils : [SoilType__30991808]
+  };
+type LandType__302881069 = {#flat; #hilly; #slope; #terraced};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type SavedAnalysis__539985145 =
+  {
+    createdAt : Timestamp__301639476;
+    id : AnalysisId__627167302;
+    input : SoilInput__935453605;
+    topCropId : Text;
+    topCropName : Text;
+    topMatchScore : Nat
+  };
+type SoilInput__935453605 =
+  {
+    climateZone : ClimateZone__656369338;
+    landType : LandType__302881069;
+    soilType : SoilType__30991808;
+    waterAvailabilityMm : Nat
+  };
+type SoilType__30991808 = {#clay; #loam; #sand; #sandyLoam; #siltLoam};
+type Timestamp__301639476 = Int;
+actor {
+  stable analyses :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?SavedAnalysis__539985145]];
+      var elementIndex : Nat__490723111
+    };
+  stable catalog : [CropInfo__658887022];
+  stable var nextAnalysisId : Nat
+};

@@ -1,0 +1,109 @@
+type YieldScenario = 
+ variant {
+   conservative;
+   optimistic;
+   realistic;
+ };
+type Timestamp = int;
+type SoilType = 
+ variant {
+   clay;
+   loam;
+   sand;
+   sandyLoam;
+   siltLoam;
+ };
+type SoilInput = 
+ record {
+   climateZone: ClimateZone;
+   landType: LandType;
+   soilType: SoilType;
+   waterAvailabilityMm: nat;
+ };
+type SavedAnalysis = 
+ record {
+   createdAt: Timestamp;
+   id: AnalysisId;
+   input: SoilInput;
+   topCropId: text;
+   topCropName: text;
+   topMatchScore: nat;
+ };
+type LandType = 
+ variant {
+   flat;
+   hilly;
+   slope;
+   terraced;
+ };
+type GrowingConditions = 
+ record {
+   maxRainfallMm: nat;
+   maxTempCelsius: int;
+   minRainfallMm: nat;
+   minTempCelsius: int;
+   soilPhMax: float64;
+   soilPhMin: float64;
+   suitableClimates: vec ClimateZone;
+   suitableLandTypes: vec LandType;
+   suitableSoils: vec SoilType;
+ };
+type EconomicsResult = 
+ record {
+   breakEvenPricePerKgUsd: float64;
+   estimatedYieldKg: float64;
+   grossRevenueUsd: float64;
+   marketPricePerKgUsd: float64;
+   netProfitUsd: float64;
+   totalProductionCostUsd: float64;
+ };
+type EconomicsInput = 
+ record {
+   cropId: text;
+   equipmentCostUsd: float64;
+   fertilizerCostUsd: float64;
+   irrigationCostUsd: float64;
+   laborCostUsd: float64;
+   landAreaHectares: float64;
+   pesticideCostUsd: float64;
+   scenario: YieldScenario;
+   seedCostUsd: float64;
+ };
+type CropRecommendation = 
+ record {
+   crop: CropInfo;
+   matchScore: nat;
+   suitabilityReason: text;
+ };
+type CropInfo = 
+ record {
+   conditions: GrowingConditions;
+   description: text;
+   growingSeasonDays: nat;
+   id: text;
+   marketPricePerKg: float64;
+   name: text;
+   typicalYieldKgPerHectare: nat;
+   waterRequirementMm: nat;
+ };
+type ClimateZone = 
+ variant {
+   arid;
+   continental;
+   mediterranean;
+   semiarid;
+   temperate;
+   tropical;
+ };
+type AnalysisId = nat;
+service : {
+  computeEconomics: (econ: EconomicsInput) -> (EconomicsResult) query;
+  deleteAnalysis: (id: AnalysisId) -> (bool);
+  getAnalysis: (id: AnalysisId) -> (opt SavedAnalysis) query;
+  getCropById: (cropId: text) -> (opt CropInfo) query;
+  getCropCatalog: () -> (vec CropInfo) query;
+  getRecommendations: (input: SoilInput) -> (vec CropRecommendation) query;
+  listAnalyses: () -> (vec SavedAnalysis) query;
+  saveAnalysis: (input: SoilInput, topCropId: text, topCropName: text,
+   topMatchScore: nat) -> (SavedAnalysis);
+}
